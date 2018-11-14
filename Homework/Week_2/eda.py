@@ -39,7 +39,6 @@ with open('input.csv', 'r', newline='') as csvfile:
         if not row:
             continue
         else:
-            #print(row)
             # make population value a float
             population = float(row['Population'])
             # make area value a float
@@ -199,7 +198,7 @@ with open('input.csv', 'r', newline='') as csvfile:
     """JSON file"""
     data_dict = {}
     i = 0
-    # iteratie over values in list 'countries'
+    # iterate over values in list 'countries'
     for value in countries:
         data_dict[value] = {}
         data_dict[value]["Region"] = region[i]
@@ -225,7 +224,6 @@ with open('input.csv', 'r', newline='') as csvfile:
 
 
     """Calculate the mode of GDP"""
-    # https://stackoverflow.com/questions/10797819/finding-the-mode-of-a-list
     gdp_mode = mode(gdp_list)
 
 
@@ -261,9 +259,5 @@ with open('input.csv', 'r', newline='') as csvfile:
 
 
     regions = panda_reader.get("Region")
-    #print(regions)
-
-
 
 input = pd.read_csv("input.csv")
-#print(input)
