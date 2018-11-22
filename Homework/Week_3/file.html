@@ -50,7 +50,6 @@
     txtFile.onreadystatechange = function() {
       if (txtFile.readyState === 4 && txtFile.status == 200) {
         var array = JSON.parse(txtFile.responseText);
-        console.log(array);
 
         keys = Object.keys(array);
         for(var i = 0; i < keys.length; i++) {
@@ -58,7 +57,6 @@
             key_list.push(Number(keys[i]))
           }
         }
-        console.log(key_list);
 
         // determine maximum and minimum keys
         var max_key = Math.max.apply(Math, key_list);
@@ -68,13 +66,10 @@
         for (i = 0; i < key_list.length; i++) {
           value_list.push(values[i][0])
         }
-        console.log(value_list);
 
         // determine maximum and minimum values
         var max_value = Math.max.apply(Math, value_list);
-        console.log(max_value);
         var min_value = Math.min.apply(Math, value_list);
-        console.log(min_value);
 
         var x_func = createTransform([min_key, max_key], [0, 1000]);
         var y_func = createTransform([min_value, max_value], [0, 700]);
