@@ -1,0 +1,12 @@
+1. Explain the difference between the == operator and the === operator.
+    === checks whether values on both sides of the operator are exactly the same.
+    == checks whether values on both sides of the operator are true after type conversions.
+2. Explain what a closure is. (Note that JavaScript programs use closures very often)
+    Closures can make global variables into local ones.
+3. Explain what higher order functions are.
+    Higher order functions are functions that take function(s) as arguements
+    or return function(s).
+4. Explain what a query selector is and give an example
+  line of JavaScript that uses a query selector.
+    Selector syntax is a notation that can be used to
+    determine which elements a set of styles apply to.
