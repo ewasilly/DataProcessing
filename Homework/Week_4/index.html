@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="index.css">
+        <script type="text/javascript" src="d3/d3.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+            d3.select("head")
+               .append("title").text("BMI status NL");
+             d3.select("body")
+               .append("title")
+               .text("Weight categories Dutch population 1981-2017");
+             d3.select("body")
+               .append("h1")
+               .text("Name: Ewa Sillem, 12149071");
+             d3.select("body")
+               .append("h3")
+               .text("  This bar chart represents how many people of the Dutch population are underweight, at a normal weight or underweight.");
+
+            var years = [];
+            var percentages = [];
+            var categories = [];
+
+            var fileName = "weight.json";
+            var txtFile = new XMLHttpRequest();
+            txtFile.onreadystatechange = function() {
+              if (txtFile.readyState === 4 && txtFile.status == 200) {
+                var data_dict = JSON.parse(txtFile.responseText);
+                //console.log(data_dict);
+
+                var years_raw = Object.keys(data_dict);
+                for (i = 0; i < years_raw.length; i++) {
+                  if (years_raw[i].length == 4) {
+                    years.push(years_raw[i])
+                  }
+                }
+
+
+                values_raw = Object.values(data_dict);
+                //console.log(values_raw);
+                for(i = 0; i < values_raw.length; i++) {
+                  array = Object.values(values_raw[i]);
+                  //console.log(array);
+                  for(j = 0; j < array.length; j++) {
+                    if (array[j].length == 3 || array[j].length == 4) {
+                      percentage_no = parseFloat(array[j])
+                      percentages.push(percentage_no);
+                    }
+                    else if (array[j].length > 4) {
+                      categories.push(array[j]);
+                    }
+                  }
+                }
+
+                console.log(years);
+                console.log(percentages);
+
+                // d3.select("body").selectAll("p")
+                //   .data(years)
+                //   .enter()
+                //   .append("p")
+                //   .text(function(d) { return d; });
+
+
+                // d3.select("body")
+  	            //  .selectAll("div")
+  	            //  .data(percentages)
+                //  .enter()
+  	            //  .append("div")
+  		          //  .attr("class", "bar")
+                //  .style("height", function(d) {
+                //    var barHeight = d * 5;
+                //    return barHeight + "px";
+                // });
+
+                var w = 1000;
+                var h = 100;
+                var barPadding = 1;
+
+                // create SVG element
+                var svg = d3.select("body")
+                            .append("svg")
+                            .attr("width", w)
+                            .attr("height", h);
+
+                // generate rectangles and add them to svg
+                svg.selectAll("rect")
+                  .data(percentages)
+                  .enter()
+                  .append("rect")
+                  .attr("x", function(d, i) {
+                    return i * (w / percentages.length);
+                  })
+                  .attr("y", function(d) {
+                    return h - d;
+                  })
+                  .attr("width", w / percentages.length - barPadding)
+                  .attr("height", function(d) {
+                    return d * 4 ;
+                  })
+                  .attr("fill", function(d) {
+                    return "rgb(0, 0, " + (d * 100) + ")";
+                  });
+
+                svg.selectAll("text")
+                  .data(years)
+                  .enter()
+                  .append("text")
+                  .text(function(d) {
+                    return d;
+                  })
+                  .attr("x", function(d, i) {
+                    return i * (w / years.length) + 20;  // +5
+                  })
+                  .attr("y", function(d) {
+                    return h - 80;              // +15
+                  });
+
+                var scale = d3.scale.linear()
+                              .domain([0, 100])
+                              .range([0, h]);
+                var yScale = d3.scale.linear()
+                               .domain([0, d3.max(percentages, function(d) {
+                                 return d; })])
+                               .range([0, h]);
+
+                yScale.attr("cy", function(d) {
+                        return yScale(d);
+})
+
+                }
+            }
+            txtFile.open("GET", fileName);
+            txtFile.send();
+
+        </script>
+
+    </body>
+</html>
