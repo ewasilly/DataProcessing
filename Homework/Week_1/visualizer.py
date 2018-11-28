@@ -15,6 +15,7 @@ END_YEAR = 2018
 
 # Global dictionary for the data
 data_dict = {str(key): [] for key in range(START_YEAR, END_YEAR)}
+
 # open movies.csv
 with open('movies.csv', newline='') as csvfile:
     reader = csv.DictReader(csvfile)
