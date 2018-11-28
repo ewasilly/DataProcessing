@@ -1,4 +1,4 @@
 # DataProcessing
 Repository used for the course Data Processing
 
-http://ewasilly.github.io/index.html
+http://ewasilly.github.io/DataProcessing/index.html
