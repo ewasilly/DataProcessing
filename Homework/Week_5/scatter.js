@@ -16,7 +16,6 @@ window.onload = function() {
   var different_years = [];
 
   Promise.all(requests).then(function(response) {
-    console.log(response);
     // make a list of the countries that are in the consumer confidence dataset
     for (i = 0; i < response[1].length; i++) {
       if (cc_countries.includes(response[1][i]['Country']) == false) {
@@ -27,8 +26,6 @@ window.onload = function() {
         cc_years.push(parseInt(response[1][i]['time']));
       }
     }
-
-    console.log(cc_years);
 
     var msti_fr = [];
     var msti_deu = [];
@@ -108,7 +105,6 @@ window.onload = function() {
       msti_fr[i]['datapoint']]);
     }
 
-    console.log(dataFRmsti);
     // calculate the mean datapoint value of France for msti dataset
     total_FRmsti = 0;
     for (i = 0; i < dataFRmsti.length; i++) {
@@ -421,12 +417,7 @@ window.onload = function() {
       }
     }
 
-    console.log(dataset1);
-    console.log(dataset2007);
-    console.log(dataset2015);
-
-    var dataIndex = 1;
-
+    // set margins
     var margin = {top: 30, right: 30, bottom: 50, left: 70},
     w = 600 - margin.left - margin.right,
     h = 400 - margin.top - margin.bottom;
@@ -437,8 +428,7 @@ window.onload = function() {
             .attr("width", w + margin.left + margin.right)
             .attr("height", h + margin.top + margin. bottom);
 
-
-
+    // function to create scatterplot with chosen dataset
     function make_scatter(dataIndex) {
       // remove all existing circles
       svg.selectAll("circle").remove();
@@ -465,6 +455,12 @@ window.onload = function() {
           })])
           .range([h, margin.bottom]);
 
+      // create color scale
+      // blue for European country
+      // yellow for Asian contry
+      var colors = d3.scaleOrdinal()
+                     .domain([0, 1])
+                     .range(["#4362CE", "#EED25E"]);
 
       // add new circles
       svg.selectAll("circle")
@@ -481,10 +477,9 @@ window.onload = function() {
           return (d[0]+d[1])/20;
         })
         // COLOR
-        .style("fill", function(d) {
-          return d[2].color;
+        .attr("fill", function(d) {
+          return colors(d[2]);
         });
-
 
       // add new coordinates to every datapoint in the scatterplot (in red)
       svg.selectAll("text")
@@ -531,7 +526,6 @@ window.onload = function() {
            .attr("dy", "1em")
            .style("text-anchor", "middle")
            .text("Women researchers (headcount)");
-
     }
 
     // button to swap over datasets
